@@ -1,6 +1,7 @@
 class Unit{
     constructor(sprite, hp=100, atc=10, armor=1, player="neutral", name="Unnamed"){
-        this.sprite = sprite;
+        this.sprite = new Sprite(undefined);
+        Object.assign(this.sprite, sprite);
         this.sprite.connect(this);
         this.hp = hp;
         this.atc = atc;

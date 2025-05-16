@@ -62,14 +62,17 @@ window.onload = async ()=>{
     const ashlandGroundImg = await loadImg("images\\ground\\3x_RMMV\\tf_A5_ashlands_3.png");
     const greenSlimeImg = await loadImg("images\\sprites\\MiniWorldSprites\\Characters\\Monsters\\Slimes\\KingSlimeGreen.png");
 
+
     let greenSlimeStatic = new ImageMap(greenSlimeImg, 6, 4);
     let greenSlimeSprite = new Sprite(greenSlimeStatic.getRow(0), 5, 5, 5);
-    let greenSlimeUnit = new Unit(greenSlimeSprite);
-    greenSlimeUnit.name = "GTS";
     greenSlimeSprite.name = "GreenTeaSlime";
+    let greenSlimeUnit = new Unit(greenSlimeSprite);
+    let greenSlimeUnit2 = new Unit(greenSlimeSprite);
+    greenSlimeUnit.name = "GTS";
+    greenSlimeUnit2.name = "GTS2";
 
-    greenSlimeSprite.put(32, 32);
-    greenSlimeSprite.put(33, 33);
+    greenSlimeUnit.sprite.put(32, 32);
+    greenSlimeUnit2.sprite.put(39, 30);
 
     let ashlandGround = new ImageMap(ashlandGroundImg, 8, 16);
     idMap = new Ground(ashlandGround.getAll());
