@@ -14,6 +14,9 @@ const groundInf = document.getElementById("groundInf");
 const coordsInf = document.getElementById("coordsInf");
 const spriteInf = document.getElementById("spriteInf");
 
+const spidometr = document.getElementById("spidometr");
+let gameSpeed = 1;
+
 const fieldResolution = ceilResolution*ceilCount;
 
 const gamescreen = document.createElement("canvas");
@@ -55,9 +58,14 @@ for(let y=0; y<ceilCount; y++){
 
 let id=0;
 let idMap;
+let unitList = new Array();
 
 window.onload = async ()=>{
-    let unitList = new Array();
+    spidometr.addEventListener('input', function () {
+        console.log(this.value);
+        changeGameSpeed(this.value);
+    }, false);
+
     papersheet();
     const ashlandGroundImg = await loadImg("images\\ground\\3x_RMMV\\tf_A5_ashlands_3.png");
     const greenSlimeImg = await loadImg("images\\sprites\\MiniWorldSprites\\Characters\\Monsters\\Slimes\\KingSlimeGreen.png");
@@ -71,8 +79,8 @@ window.onload = async ()=>{
     greenSlimeUnit.name = "GTS";
     greenSlimeUnit2.name = "GTS2";
 
-    greenSlimeUnit.sprite.put(32, 32);
-    greenSlimeUnit2.sprite.put(39, 30);
+    greenSlimeUnit.put(32, 32);
+    greenSlimeUnit2.put(39, 30);
 
     let ashlandGround = new ImageMap(ashlandGroundImg, 8, 16);
     idMap = new Ground(ashlandGround.getAll());
@@ -238,4 +246,11 @@ function screen(){
 
 async function start() {
     loadImages();
+}
+
+function changeGameSpeed(newSpeed){
+    gameSpeed=newSpeed;
+    unitList.forEach(unit => {
+        unit.sprite.changeSpeed(newSpeed);
+    });
 }

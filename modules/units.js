@@ -29,4 +29,14 @@ class Unit{
     onhover(){
         
     }
+
+    put(x, y){
+        this.sprite.put(x, y);
+        let index=unitList.indexOf(this);
+        if(index>-1){
+            unitList.splice(index, 1);
+        }
+        unitList.push(this);
+
+    }
 }

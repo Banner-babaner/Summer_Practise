@@ -6,6 +6,7 @@ class Sprite{
         this.width = width;
         this.height = height;
 
+        this.defaultInterval = framesPerChange;
         this.interval = framesPerChange;
         this.frame = 0;
         this.animation = "static";
@@ -24,7 +25,7 @@ class Sprite{
     }
 
     update(){
-        if(this.frame==this.interval){
+        if(this.frame>=this.interval){
             this.frame=0;
             this.slide++;
         }
@@ -89,5 +90,10 @@ class Sprite{
         if(this.unitReference) this.unitReference.onhover();
     }
 
+    changeSpeed(mult){
+        let test_value = Math.floor(this.defaultInterval/mult);
+        this.interval=(test_value>0?test_value:test_value+1);
+        console.log(this.interval, mult, Math.floor(this.defaultInterval/mult));
+    }
 }
 
