@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Chaos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="helper">
+        <button id="screenshotBtn" onclick="screen();">Скачать скриншот</button>
+        <p id="groundInf">TypeOfGround</p>
+        <p id="coordsInf">Coords</p>
+        <p id="spriteInf">Sprite</p>
+    </div>
+    <main id="main">
+        <canvas id="ground">
+            Ваш браузер не поддерживает canvas
+        </canvas>
+        <canvas id="sprites">
+            Ваш браузер не поддерживает canvas
+        </canvas>
+    </main>
+    <script src="index.js"></script>
+    <script src="modules/cut.js"></script>
+    <script src="modules/ground.js"></script>
+    <script src="modules/sprites.js"></script>
+    <script src="modules/units.js"></script>
+    <script src="initialization/imageMaps.js"></script>
+    <script src="initialization/sprites.js"></script>
+    <script src="initialization/units.js"></script>
+</body>
+</html>

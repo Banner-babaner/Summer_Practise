@@ -1,0 +1,58 @@
+body{
+    --resolution: 40px;
+    margin: 0;
+    padding-left: 30vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100wv;
+    min-height: 100vh;
+    background-color: beige;
+    justify-content: center;
+    align-items: center;
+}
+
+main{
+    position: relative;
+    height: 90vh;
+    width: 160vh;
+    box-sizing: border-box;
+    overflow: auto;
+    /* scrollbar-width: none; */
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+canvas{
+    position: absolute;
+    top:0;
+    left:0;
+    background-color: blueviolet;
+    height: calc(65*var(--resolution));
+    width: calc(65*var(--resolution));
+    image-rendering: pixelated;
+}
+
+#helper{
+    position: fixed;
+    padding: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    font-size: 3vh;
+    resize: both;
+    left:0;
+    top:0;
+    width: 25vh;
+    z-index: 100;
+}
+#sprites{
+    background: none;
+    z-index: 10;
+}
+#screenshotBtn{
+    width: 100%;
+    font-size: 3vh;
+}
