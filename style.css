@@ -2,6 +2,7 @@ body{
     --resolution: 40px;
     margin: 0;
     padding-left: 30vh;
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -28,7 +29,6 @@ canvas{
     position: absolute;
     top:0;
     left:0;
-    background-color: blueviolet;
     height: calc(65*var(--resolution));
     width: calc(65*var(--resolution));
     image-rendering: pixelated;
@@ -52,7 +52,27 @@ canvas{
     background: none;
     z-index: 10;
 }
+#battleFog{
+    background: none;
+    pointer-events: none;
+    z-index: 20;
+}
 #screenshotBtn{
     width: 100%;
     font-size: 3vh;
+}
+#spidometr{
+    appearance: none;
+    width: 50vw;
+    height: 10vh;
+}
+#spidometr::-webkit-slider-thumb{
+    height: 1vh;
+}
+#spidometr::-moz-range-thumb{
+    height: 1vh;
+}
+#switchFog{
+    height: 1vw;
+    width: 1vw;
 }

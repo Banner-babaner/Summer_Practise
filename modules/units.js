@@ -8,6 +8,9 @@ class Unit{
         this.armor = armor;
         this.player = player;
         this.name = name;
+        this.hpRegen=0;
+        this.atcInterval=1;
+        this.watchingRadius=20;
     }
 
 
@@ -37,6 +40,10 @@ class Unit{
             unitList.splice(index, 1);
         }
         unitList.push(this);
+
+    }
+
+    findEnemyNearby(){
 
     }
 }

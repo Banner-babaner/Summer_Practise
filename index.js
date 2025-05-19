@@ -13,6 +13,7 @@ const ceilCount = 65;
 const groundInf = document.getElementById("groundInf");
 const coordsInf = document.getElementById("coordsInf");
 const spriteInf = document.getElementById("spriteInf");
+const switchFog = document.getElementById("switchFog");
 
 const spidometr = document.getElementById("spidometr");
 let gameSpeed = 1;
@@ -57,8 +58,12 @@ for(let y=0; y<ceilCount; y++){
 }
 
 let id=0;
-let idMap;
+// let idMap;
 let unitList = new Array();
+
+
+const player = ["top", "right", "bottom", "left"][randint(0, 4)];
+document.getElementById("playerName").innerHTML = `Player: ${player}`;
 
 window.onload = async ()=>{
     spidometr.addEventListener('input', function () {
@@ -70,20 +75,38 @@ window.onload = async ()=>{
     const ashlandGroundImg = await loadImg("images\\ground\\3x_RMMV\\tf_A5_ashlands_3.png");
     const greenSlimeImg = await loadImg("images\\sprites\\MiniWorldSprites\\Characters\\Monsters\\Slimes\\KingSlimeGreen.png");
 
-
     let greenSlimeStatic = new ImageMap(greenSlimeImg, 6, 4);
     let greenSlimeSprite = new Sprite(greenSlimeStatic.getRow(0), 5, 5, 5);
     greenSlimeSprite.name = "GreenTeaSlime";
     let greenSlimeUnit = new Unit(greenSlimeSprite);
     let greenSlimeUnit2 = new Unit(greenSlimeSprite);
+    let greenSlimeUnit3 = new Unit(greenSlimeSprite);
+    let greenSlimeUnit4 = new Unit(greenSlimeSprite);
+    let greenSlimeUnit5 = new Unit(greenSlimeSprite);
+    let greenSlimeUnit6 = new Unit(greenSlimeSprite);
     greenSlimeUnit.name = "GTS";
     greenSlimeUnit2.name = "GTS2";
+    greenSlimeUnit3.name = "topPlayer";
+    greenSlimeUnit4.name = "rightPlayer";
+    greenSlimeUnit5.name = "bottomPlayer";
+    greenSlimeUnit6.name = "leftPlayer";
+
+
+
 
     greenSlimeUnit.put(32, 32);
     greenSlimeUnit2.put(39, 30);
+    greenSlimeUnit3.put(Math.floor(ceilCount/2), 0);
+    greenSlimeUnit4.put(ceilCount-greenSlimeUnit4.sprite.width, Math.floor(ceilCount/2));
+    greenSlimeUnit5.put(Math.floor(ceilCount/2), ceilCount-greenSlimeUnit5.sprite.height);
+    greenSlimeUnit6.put(0, Math.floor(ceilCount/2));
+    greenSlimeUnit3.player = "top";
+    greenSlimeUnit4.player = "right";
+    greenSlimeUnit5.player = "bottom";
+    greenSlimeUnit6.player = "left";
 
     let ashlandGround = new ImageMap(ashlandGroundImg, 8, 16);
-    idMap = new Ground(ashlandGround.getAll());
+    // idMap = new Ground(ashlandGround.getAll());
 
     let ashlandDirt = new Ground(
         ashlandGround.getRow(0, 1).concat(ashlandGround.getRow(1, 6)).concat(ashlandGround.getRow(2, 5))
@@ -154,6 +177,7 @@ function papersheet(){
 function update(){
     drawSprites();
     requestAnimationFrame(update);
+    updateFog(player);
 }
 
 function randint(a, b){
@@ -174,10 +198,11 @@ function drawSprites(){
     sctx.clearRect(0, 0, fieldResolution, fieldResolution);
     for(let y=0; y<ceilCount; y++){
         for(let x=0; x<ceilCount; x++){
+
             let sprite = spriteMap[y][x];
             if(sprite){
                 sprite = sprite.update();
-                draw(sctx, sprite.img, x, y, sprite.width, sprite.height, 10);
+                draw(sctx, sprite.img, x, y, sprite.width, sprite.height);
             }
         }
     }
@@ -209,7 +234,7 @@ function getMouseCeil(event){
     if(x<0)x=0;
     let y = Math.floor(event.offsetY/ground.clientHeight*ceilCount);
     if(y<0)y=0;
-    if(hitBoxMap[y][x]) hitBoxMap[y][x].onhover();
+    if(hitBoxMap[y][x]&&(battleFogMap[y][x]=="clear")) hitBoxMap[y][x].onhover();
     coordsInf.innerHTML = `${[x, y]}`;
     groundInf.innerHTML = `${groundMap[y][x].type}`;
     if(hitBoxMap[y][x]!=undefined){
@@ -218,20 +243,20 @@ function getMouseCeil(event){
     else{
         spriteInf.innerHTML = "None";
     }
-    
     return [x, y];
 }
 
 function canvasClick(event){
     let x = getMouseCeil(event)[0];
     let y = getMouseCeil(event)[1];
-    if(hitBoxMap[y][x]) hitBoxMap[y][x].onclick();
+    if(hitBoxMap[y][x]&&((battleFogMap[y][x]=="clear")||(!switchFog.checked))) hitBoxMap[y][x].onclick();
     return [x, y];
 }
 
 function screen(){
     gamescreen.getContext("2d").drawImage(ground, 0, 0);
     gamescreen.getContext("2d").drawImage(sprites, 0, 0);
+    gamescreen.getContext("2d").drawImage(battleFog, 0, 0);
     let link = document.createElement("a");
     link.download = "screenshot.png";
     try{

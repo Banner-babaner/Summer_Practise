@@ -12,6 +12,8 @@
         <p id="groundInf">TypeOfGround</p>
         <p id="coordsInf">Coords</p>
         <p id="spriteInf">Sprite</p>
+        <p>Туман войны <input type="checkbox" id="switchFog"></p>
+        <p id="playerName"></p>
     </div>
     <main id="main">
         <canvas id="ground">
@@ -20,12 +22,16 @@
         <canvas id="sprites">
             Ваш браузер не поддерживает canvas
         </canvas>
+        <canvas id="battleFog">
+            Ваш браузер не поддерживает canvas
+        </canvas>
     </main>
     <div id="spidometrDiv">
         <input type="range" min="0.25" max="4" id="spidometr" value="1" step="0.25">
     </div>
     <script src="index.js"></script>
     <script src="modules/cut.js"></script>
+    <script src="modules/battleFog.js"></script>
     <script src="modules/ground.js"></script>
     <script src="modules/sprites.js"></script>
     <script src="modules/units.js"></script>
