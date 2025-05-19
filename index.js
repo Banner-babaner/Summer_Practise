@@ -96,10 +96,10 @@ window.onload = async ()=>{
 
     greenSlimeUnit.put(32, 32);
     greenSlimeUnit2.put(39, 30);
-    greenSlimeUnit3.put(Math.floor(ceilCount/2), 0);
-    greenSlimeUnit4.put(ceilCount-greenSlimeUnit4.sprite.width, Math.floor(ceilCount/2));
-    greenSlimeUnit5.put(Math.floor(ceilCount/2), ceilCount-greenSlimeUnit5.sprite.height);
-    greenSlimeUnit6.put(0, Math.floor(ceilCount/2));
+    greenSlimeUnit3.put(Math.floor(ceilCount/2-greenSlimeUnit3.sprite.width/2), 0);
+    greenSlimeUnit4.put(ceilCount-greenSlimeUnit4.sprite.width, Math.floor(ceilCount/2-greenSlimeUnit3.sprite.height/2));
+    greenSlimeUnit5.put(Math.floor(ceilCount/2-greenSlimeUnit3.sprite.width/2), ceilCount-greenSlimeUnit5.sprite.height);
+    greenSlimeUnit6.put(0, Math.floor(ceilCount/2-greenSlimeUnit3.sprite.height/2));
     greenSlimeUnit3.player = "top";
     greenSlimeUnit4.player = "right";
     greenSlimeUnit5.player = "bottom";
