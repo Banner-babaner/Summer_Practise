@@ -16,6 +16,7 @@ function updateFog(player="top"){
     if(!switchFog.checked) {
         bfctx.clearRect(0, 0, fieldResolution, fieldResolution);
         return;
+        
     }
     for(let i=0; i<ceilCount; i++){
         let row = new Array(ceilCount);

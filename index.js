@@ -66,8 +66,9 @@ const player = ["top", "right", "bottom", "left"][randint(0, 4)];
 document.getElementById("playerName").innerHTML = `Player: ${player}`;
 
 window.onload = async ()=>{
+    await loadSpriteImages();
+    await createSprites();
     spidometr.addEventListener('input', function () {
-        console.log(this.value);
         changeGameSpeed(this.value);
     }, false);
 
@@ -77,14 +78,15 @@ window.onload = async ()=>{
 
     let greenSlimeStatic = new ImageMap(greenSlimeImg, 6, 4);
     let greenSlimeSprite = new Sprite(greenSlimeStatic.getRow(0), 5, 5, 5);
+    let testBlue = new Sprite(BlueKingSlimeImageMap.getRow(0), 5, 5, 5);
     greenSlimeSprite.name = "GreenTeaSlime";
-    let greenSlimeUnit = new Unit(greenSlimeSprite);
+    let greenSlimeUnit = new BlueKingSlime();
     let greenSlimeUnit2 = new Unit(greenSlimeSprite);
     let greenSlimeUnit3 = new Unit(greenSlimeSprite);
     let greenSlimeUnit4 = new Unit(greenSlimeSprite);
     let greenSlimeUnit5 = new Unit(greenSlimeSprite);
-    let greenSlimeUnit6 = new Unit(greenSlimeSprite);
-    greenSlimeUnit.name = "GTS";
+    let greenSlimeUnit6 = new Unit(testBlue);
+    greenSlimeUnit6.sprite.name = "BlueTeaSlime";
     greenSlimeUnit2.name = "GTS2";
     greenSlimeUnit3.name = "topPlayer";
     greenSlimeUnit4.name = "rightPlayer";
@@ -270,7 +272,7 @@ function screen(){
 }
 
 async function start() {
-    loadImages();
+    
 }
 
 function changeGameSpeed(newSpeed){

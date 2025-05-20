@@ -31,8 +31,8 @@ class ImageMap{
     getRow(number, start=0, end="auto"){
         if((number<0)||(number>=this.yCount)) throw new Error("NoNoNo, mister Fish");
         if((start<0)||(start>=this.xCount)) throw new Error("NoNoNo, mister Fish");
-        if(end=="auto") end = this.xCount-1;
-        if(end>=this.xCount) throw new Error("NoNoNo, mister Fish");
+        if(end=="auto") end = this.xCount;
+        if(end>this.xCount) throw new Error("NoNoNo, mister Fish");
         let row = new Array();
         for(let x=start; x<end; x++){
             row.push(

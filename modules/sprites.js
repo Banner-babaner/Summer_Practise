@@ -1,5 +1,5 @@
 class Sprite{
-    constructor(staticAnimation, width=1, height=1, framesPerChange=1){
+    constructor(staticAnimation, width=1, height=1, framesPerChange=3){
         this.animations = {
             "static" : staticAnimation
         }
@@ -93,7 +93,6 @@ class Sprite{
     changeSpeed(mult){
         let test_value = Math.floor(this.defaultInterval/mult);
         this.interval=(test_value>0?test_value:test_value+1);
-        console.log(this.interval, mult, Math.floor(this.defaultInterval/mult));
     }
 }
 

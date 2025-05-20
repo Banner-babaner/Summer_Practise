@@ -5,11 +5,12 @@ class Unit{
         this.sprite.connect(this);
         this.hp = hp;
         this.atc = atc;
+        this.atcRange=1;
+        this.atcInterval=1;
         this.armor = armor;
         this.player = player;
         this.name = name;
         this.hpRegen=0;
-        this.atcInterval=1;
         this.watchingRadius=20;
     }
 
@@ -17,6 +18,8 @@ class Unit{
     die(){
 
     }
+
+
 
     changeHp(dHp){
         this.hp-=dHp;
