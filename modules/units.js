@@ -50,4 +50,30 @@ class Unit{
 
     }
 
+    move(way){
+        switch(way){
+            case "top":
+                this.sprite.changeAnimation("moveTop", false);
+                this.put(this.sprite.x, this.sprite.y-1);
+                break;
+            case "right":
+                this.sprite.changeAnimation("moveRight", false);
+                this.put(this.sprite.x+1, this.sprite.y);
+                break;
+            case "down":
+                this.sprite.changeAnimation("moveDown", false);
+                this.put(this.sprite.x, this.sprite.y+1);
+                break;
+            case "left":
+                this.sprite.changeAnimation("moveLeft", false);
+                this.put(this.sprite.x-1, this.sprite.y);
+                break;
+            case "stop":
+                this.sprite.changeAnimation("static", false);
+                break;
+            default:
+                throw "Куда ._."
+        }
+    }
+
 }

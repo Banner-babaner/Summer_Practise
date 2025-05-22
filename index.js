@@ -65,6 +65,9 @@ let unitList = new Array();
 const player = ["top", "right", "bottom", "left"][randint(0, 4)];
 document.getElementById("playerName").innerHTML = `Player: ${player}`;
 
+var link;
+
+
 window.onload = async ()=>{
     await loadSpriteImages();
     await createSprites();
@@ -78,7 +81,7 @@ window.onload = async ()=>{
 
     let greenSlimeStatic = new ImageMap(greenSlimeImg, 6, 4);
     let greenSlimeSprite = new Sprite(greenSlimeStatic.getRow(0), 5, 5, 5);
-    let testBlue = new Sprite(BlueKingSlimeImageMap.getRow(0), 5, 5, 5);
+
     greenSlimeSprite.name = "GreenTeaSlime";
     let greenSlimeUnit = new BlueKingSlime();
     let greenSlimeUnit2 = new GreenKingSlime();
@@ -92,7 +95,10 @@ window.onload = async ()=>{
     greenSlimeUnit4.name = "rightPlayer";
     greenSlimeUnit5.name = "bottomPlayer";
     greenSlimeUnit6.name = "leftPlayer";
-
+    if(player=="top") link = greenSlimeUnit3;
+    else if(player=="right") link = greenSlimeUnit4;
+    else if(player=="bottom") link = greenSlimeUnit5;
+    else if(player=="left") link = greenSlimeUnit6;
 
 
 
@@ -278,6 +284,39 @@ async function start() {
     for(let x=2; x<ceilCount-1; x+=2){
         [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(x, 0);
         [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(x, ceilCount-2);
+    }
+    window.onkeydown=(event)=>{
+        switch(event.key){
+            case "A":
+            case "a":
+                link.move("left");
+                break;
+            case "W":
+            case "w":
+                link.move("top");
+                break;
+            case "s":
+            case "S":
+                link.move("down");
+                break;
+            case "d":
+            case "D":
+                link.move("right");
+                break;
+        }
+    }
+    window.onkeyup=(event)=>{
+        switch(event.key){
+            case "A":
+            case "a":
+            case "W":
+            case "w":
+            case "s":
+            case "S":
+            case "d":
+            case "D":
+                link.move("stop");
+        }
     }
     update();
 }

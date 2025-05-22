@@ -17,12 +17,15 @@ class Sprite{
 
         this.name = "Unnamed";
         this.unitReference = undefined;
+
     }
 
-    changeAnimation(newAnimation){
+    changeAnimation(newAnimation, reset=true){
         if(this.animations[newAnimation]) this.animation = newAnimation;
-        this.frame=0;
-        this.slide=0;
+        if(reset){
+            this.frame=0;
+            this.slide=0;  
+        }
     }
 
     addAnimation(name, newAnimation){
@@ -99,5 +102,6 @@ class Sprite{
         let test_value = Math.floor(this.defaultInterval/mult);
         this.interval=(test_value>0?test_value:test_value+1);
     }
+
 }
 

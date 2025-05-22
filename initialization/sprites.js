@@ -10,11 +10,13 @@ var LightDeadTreeSprite;
 
 async function createSprites(){
     BlueKingSlimeSprite = new Sprite(BlueKingSlimeImageMap.getRow(0), 5, 5, 5);
+    BlueKingSlimeSprite.addAnimation("moveDown", BlueKingSlimeImageMap.getRow(0));
     BlueKingSlimeSprite.addAnimation("moveLeft", BlueKingSlimeImageMap.getRow(1));
     BlueKingSlimeSprite.addAnimation("moveRight", BlueKingSlimeImageMap.getRow(2));
     BlueKingSlimeSprite.addAnimation("moveTop", BlueKingSlimeImageMap.getRow(3));
 
     GreenKingSlimeSprite = new Sprite(GreenKingSlimeImageMap.getRow(0), 5, 5, 5);
+    GreenKingSlimeSprite.addAnimation("moveDown", GreenKingSlimeImageMap.getRow(0));
     GreenKingSlimeSprite.addAnimation("moveLeft", GreenKingSlimeImageMap.getRow(1));
     GreenKingSlimeSprite.addAnimation("moveRight", GreenKingSlimeImageMap.getRow(2));
     GreenKingSlimeSprite.addAnimation("moveTop", GreenKingSlimeImageMap.getRow(3));
