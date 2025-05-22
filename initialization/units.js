@@ -4,7 +4,7 @@ class LightDeadTree extends Unit{
     }
     name = "LightDeadTree";
     player = "passive";
-    // onclick = ()=>{};
+    onclick = ()=>{};
 };
 
 class DarkDeadTree extends Unit{
@@ -13,7 +13,7 @@ class DarkDeadTree extends Unit{
     }
     name = "DarkDeadTree";
     player = "passive";
-    // onclick = ()=>{};
+    onclick = ()=>{};
 };
 
 class BlueKingSlime extends Unit{
@@ -21,4 +21,7 @@ class BlueKingSlime extends Unit{
         super(BlueKingSlimeSprite);
     }
     name = "BlueKingSlime";
+    onclick(){
+        this.sprite.changeAnimation(["static", "moveLeft", "moveRight", "moveTop"][randint(0, 4)]);
+    }
 }

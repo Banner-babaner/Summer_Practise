@@ -19,6 +19,11 @@ class Sprite{
         this.unitReference = undefined;
     }
 
+    changeAnimation(newAnimation){
+        if(this.animations[newAnimation]) this.animation = newAnimation;
+        this.frame=0;
+        this.slide=0;
+    }
 
     addAnimation(name, newAnimation){
         this.animations[name]=newAnimation;

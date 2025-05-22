@@ -8,7 +8,7 @@ const sprites = document.getElementById("sprites");
 const sctx = sprites.getContext("2d");
 
 const ceilResolution = 50;
-const ceilCount = 65;
+const ceilCount = 64;
 
 const groundInf = document.getElementById("groundInf");
 const coordsInf = document.getElementById("coordsInf");
@@ -98,10 +98,10 @@ window.onload = async ()=>{
 
     greenSlimeUnit.put(32, 32);
     greenSlimeUnit2.put(39, 30);
-    greenSlimeUnit3.put(Math.floor(ceilCount/2-greenSlimeUnit3.sprite.width/2), 0);
-    greenSlimeUnit4.put(ceilCount-greenSlimeUnit4.sprite.width, Math.floor(ceilCount/2-greenSlimeUnit3.sprite.height/2));
-    greenSlimeUnit5.put(Math.floor(ceilCount/2-greenSlimeUnit3.sprite.width/2), ceilCount-greenSlimeUnit5.sprite.height);
-    greenSlimeUnit6.put(0, Math.floor(ceilCount/2-greenSlimeUnit3.sprite.height/2));
+    greenSlimeUnit3.put(Math.floor(ceilCount/2-greenSlimeUnit3.sprite.width/2), 4);
+    greenSlimeUnit4.put(ceilCount-greenSlimeUnit4.sprite.width-4, Math.floor(ceilCount/2-greenSlimeUnit3.sprite.height/2));
+    greenSlimeUnit5.put(Math.floor(ceilCount/2-greenSlimeUnit3.sprite.width/2), ceilCount-greenSlimeUnit5.sprite.height-4);
+    greenSlimeUnit6.put(4, Math.floor(ceilCount/2-greenSlimeUnit3.sprite.height/2));
     greenSlimeUnit3.player = "top";
     greenSlimeUnit4.player = "right";
     greenSlimeUnit5.player = "bottom";
@@ -138,7 +138,6 @@ window.onload = async ()=>{
     await start();
     
     drawGround(groundMap);
-    update();
     // papersheet();
 }
 
@@ -272,7 +271,15 @@ function screen(){
 }
 
 async function start() {
-    
+    for(let y=0; y<ceilCount-1; y+=2){
+        [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(0, y);
+        [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(ceilCount-2, y);
+    }
+    for(let x=2; x<ceilCount-1; x+=2){
+        [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(x, 0);
+        [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(x, ceilCount-2);
+    }
+    update();
 }
 
 function changeGameSpeed(newSpeed){
