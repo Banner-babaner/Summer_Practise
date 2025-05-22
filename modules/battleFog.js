@@ -2,7 +2,7 @@ const battleFog = document.getElementById("battleFog");
 battleFog.width = fieldResolution;
 battleFog.height = fieldResolution;
 bfctx = battleFog.getContext("2d");
-bfctx.fillStyle="black";
+bfctx.fillStyle="rgba(100, 100, 100, 0.25)";
 
 
 var battleFogMap = new Array(ceilCount);
@@ -30,7 +30,8 @@ function updateFog(player="top"){
             let r = hitBoxMap[y][x].unitReference.watchingRadius;
             for(let ySee=-r; ySee<=r; ySee++){
                 for(let xSee=-r; xSee<=r; xSee++){
-                    if((xSee*xSee+ySee*ySee<=r*r)&&(xSee+x<ceilCount)&&(xSee+x>=0)&&(ySee+y<ceilCount)&&(ySee+y>=0)){
+                    let sqr = xSee*xSee+ySee*ySee;
+                    if((sqr<=r*r)&&(xSee+x<ceilCount)&&(xSee+x>=0)&&(ySee+y<ceilCount)&&(ySee+y>=0)){
                         battleFogMap[y+ySee][x+xSee]="clear";
                     }
                 }

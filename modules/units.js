@@ -12,7 +12,7 @@ class Unit{
         this.player = player;
         this.name = name;
         this.hpRegen=0;
-        this.watchingRadius=20;
+        this.watchingRadius=5;
     }
 
 

@@ -23,6 +23,7 @@ class BlueKingSlime extends Unit{
         super(GreenKingSlimeSprite);
     }
     name = "BlueKingSlime";
+    watchingRadius = 20;
     onclick(){
         this.sprite.changeAnimation(["static", "moveLeft", "moveRight", "moveTop"][randint(0, 4)]);
     }
@@ -41,6 +42,7 @@ class GreenKingSlime extends Unit{
         super(BlueKingSlimeSprite);
     }
     name = "GreenKingSlime";
+    watchingRadius = 20;
     onclick(){
         this.sprite.changeAnimation(["static", "moveLeft", "moveRight", "moveTop"][randint(0, 4)]);
     }
