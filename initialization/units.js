@@ -4,6 +4,7 @@ class LightDeadTree extends Unit{
     }
     name = "LightDeadTree";
     player = "passive";
+    atc = 0;
     onclick = ()=>{};
 };
 
@@ -13,14 +14,25 @@ class DarkDeadTree extends Unit{
     }
     name = "DarkDeadTree";
     player = "passive";
+    atc = 0;
     onclick = ()=>{};
 };
 
 class BlueKingSlime extends Unit{
     constructor(){
-        super(BlueKingSlimeSprite);
+        super(GreenKingSlimeSprite);
     }
     name = "BlueKingSlime";
+    onclick(){
+        this.sprite.changeAnimation(["static", "moveLeft", "moveRight", "moveTop"][randint(0, 4)]);
+    }
+}
+
+class GreenKingSlime extends Unit{
+    constructor(){
+        super(BlueKingSlimeSprite);
+    }
+    name = "GreenKingSlime";
     onclick(){
         this.sprite.changeAnimation(["static", "moveLeft", "moveRight", "moveTop"][randint(0, 4)]);
     }

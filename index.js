@@ -81,11 +81,11 @@ window.onload = async ()=>{
     let testBlue = new Sprite(BlueKingSlimeImageMap.getRow(0), 5, 5, 5);
     greenSlimeSprite.name = "GreenTeaSlime";
     let greenSlimeUnit = new BlueKingSlime();
-    let greenSlimeUnit2 = new Unit(greenSlimeSprite);
-    let greenSlimeUnit3 = new Unit(greenSlimeSprite);
-    let greenSlimeUnit4 = new Unit(greenSlimeSprite);
-    let greenSlimeUnit5 = new Unit(greenSlimeSprite);
-    let greenSlimeUnit6 = new Unit(testBlue);
+    let greenSlimeUnit2 = new GreenKingSlime();
+    let greenSlimeUnit3 = new GreenKingSlime();
+    let greenSlimeUnit4 = new GreenKingSlime();
+    let greenSlimeUnit5 = new GreenKingSlime();
+    let greenSlimeUnit6 = new BlueKingSlime();
     greenSlimeUnit6.sprite.name = "BlueTeaSlime";
     greenSlimeUnit2.name = "GTS2";
     greenSlimeUnit3.name = "topPlayer";

@@ -1,6 +1,4 @@
 class Ground{
-
-
     constructor(imageList, type="ground"){
         this.imageList = imageList;
         this.type = type;
