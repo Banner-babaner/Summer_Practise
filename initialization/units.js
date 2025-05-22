@@ -28,6 +28,14 @@ class BlueKingSlime extends Unit{
     }
 }
 
+class SwordsManRed extends Unit{
+    constructor(){
+        super(SwordsManRedSprite);
+    }
+    name = "SwordsManRed";
+}
+
+
 class GreenKingSlime extends Unit{
     constructor(){
         super(BlueKingSlimeSprite);

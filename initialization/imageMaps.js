@@ -7,6 +7,8 @@ var GreenSlimeImageMap;
 
 var DeadTreesImageMap;
 
+var SwordsManRedImageMap;
+
 async function loadSpriteImages(){
     BlueKingSlimeImageMap = new ImageMap(await loadImg("images\\sprites\\MiniWorldSprites\\Characters\\Monsters\\Slimes\\KingSlimeBlue.png"), 6, 4);
     GreenKingSlimeImageMap = new ImageMap(await loadImg("images\\sprites\\MiniWorldSprites\\Characters\\Monsters\\Slimes\\KingSlimeGreen.png"), 6, 4);
@@ -17,4 +19,6 @@ async function loadSpriteImages(){
 
 
     DeadTreesImageMap = new ImageMap(await loadImg("images\\sprites\\MiniWorldSprites\\Nature\\DeadTrees.png"), 4, 1);
+
+    SwordsManRedImageMap = new ImageMap(await loadImg("images\\sprites\\MiniWorldSprites\\Characters\\Soldiers\\Melee\\RedMelee\\SwordsmanRed.png"), 5, 12);
 }

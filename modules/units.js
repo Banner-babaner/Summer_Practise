@@ -3,6 +3,7 @@ class Unit{
         this.sprite = new Sprite(undefined);
         Object.assign(this.sprite, sprite);
         this.sprite.connect(this);
+        unitList.push(this);
         this.hp = hp;
         this.atc = atc;
         this.atcRange=1;
@@ -74,6 +75,31 @@ class Unit{
             default:
                 throw "Куда ._."
         }
+    }
+    beat(way){
+        switch(way){
+            case "top":
+                this.sprite.changeAnimation("beatTop");
+                break;
+            case "right":
+                this.sprite.changeAnimation("beatRight");
+                break;
+            case "down":
+                this.sprite.changeAnimation("beatDown");
+                break;
+            case "left":
+                this.sprite.changeAnimation("beatLeft");
+                break;
+            case "stop":
+                this.sprite.changeAnimation("static");
+                break;
+            default:
+                throw "Куда ._."
+        }
+
+    }
+    hit(){
+
     }
 
 }

@@ -38,6 +38,7 @@ class Sprite{
             this.slide++;
         }
         if(this.slide==this.animations[this.animation].length){
+            this.animation="static";
             this.slide = 0;
         }
         this.frame++;
@@ -102,6 +103,6 @@ class Sprite{
         let test_value = Math.floor(this.defaultInterval/mult);
         this.interval=(test_value>0?test_value:test_value+1);
     }
-
+    
 }
 

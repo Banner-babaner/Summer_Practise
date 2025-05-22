@@ -95,10 +95,11 @@ window.onload = async ()=>{
     greenSlimeUnit4.name = "rightPlayer";
     greenSlimeUnit5.name = "bottomPlayer";
     greenSlimeUnit6.name = "leftPlayer";
-    if(player=="top") link = greenSlimeUnit3;
-    else if(player=="right") link = greenSlimeUnit4;
-    else if(player=="bottom") link = greenSlimeUnit5;
-    else if(player=="left") link = greenSlimeUnit6;
+
+    link = new SwordsManRed();
+    link.player = player;
+    link.put(10, 10);
+
 
 
 
@@ -286,7 +287,28 @@ async function start() {
         [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(x, ceilCount-2);
     }
     window.onkeydown=(event)=>{
-        switch(event.key){
+        if(event.shiftKey){
+            switch(event.key){
+            case "A":
+            case "a":
+                link.beat("left");
+                break;
+            case "W":
+            case "w":
+                link.beat("top");
+                break;
+            case "s":
+            case "S":
+                link.beat("down");
+                break;
+            case "d":
+            case "D":
+                link.beat("right");
+                break;
+        }
+        }
+        else{
+            switch(event.key){
             case "A":
             case "a":
                 link.move("left");
@@ -304,18 +326,6 @@ async function start() {
                 link.move("right");
                 break;
         }
-    }
-    window.onkeyup=(event)=>{
-        switch(event.key){
-            case "A":
-            case "a":
-            case "W":
-            case "w":
-            case "s":
-            case "S":
-            case "d":
-            case "D":
-                link.move("stop");
         }
     }
     update();
