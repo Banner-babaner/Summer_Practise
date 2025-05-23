@@ -54,23 +54,23 @@ class Unit{
     move(way){
         switch(way){
             case "top":
-                this.sprite.changeAnimation("moveTop", false);
+                this.sprite.changeAnimation("moveTop");
                 this.put(this.sprite.x, this.sprite.y-1);
                 break;
             case "right":
-                this.sprite.changeAnimation("moveRight", false);
+                this.sprite.changeAnimation("moveRight");
                 this.put(this.sprite.x+1, this.sprite.y);
                 break;
             case "down":
-                this.sprite.changeAnimation("moveDown", false);
+                this.sprite.changeAnimation("moveDown");
                 this.put(this.sprite.x, this.sprite.y+1);
                 break;
             case "left":
-                this.sprite.changeAnimation("moveLeft", false);
+                this.sprite.changeAnimation("moveLeft");
                 this.put(this.sprite.x-1, this.sprite.y);
                 break;
             case "stop":
-                this.sprite.changeAnimation("static", false);
+                this.sprite.changeAnimation("static");
                 break;
             default:
                 throw "Куда ._."
@@ -101,5 +101,88 @@ class Unit{
     hit(){
 
     }
-
+    toPoint(x, y){
+        let dx = x-this.sprite.x;
+        let dy = y-this.sprite.y;
+        if(Math.abs(dx)>Math.abs(dy)){
+            if(dx>0){
+                if(this.sprite.putable(this.sprite.x+1, this.sprite.y)){
+                    this.move("right");
+                }
+                else if((dy>0)){
+                    if(this.sprite.putable(this.sprite.x, this.sprite.y+1)){
+                        this.move("down");
+                    }
+                    else if(this.sprite.putable(this.sprite.x, this.sprite.y-1)){
+                        this.move("top");
+                    }
+                }
+                else if(this.sprite.putable(this.sprite.x, this.sprite.y-1)){
+                    this.move("top");
+                }
+                else if(this.sprite.putable(this.sprite.x, this.sprite.y+1)){
+                    this.move("down");
+                }
+            }
+            else if(dx<0){
+                if(this.sprite.putable(this.sprite.x-1, this.sprite.y)){
+                    this.move("left");
+                }
+                else if((dy>0)){
+                    if(this.sprite.putable(this.sprite.x, this.sprite.y+1)){
+                        this.move("down");
+                    }
+                    else if(this.sprite.putable(this.sprite.x, this.sprite.y-1)){
+                        this.move("top");
+                    }
+                }
+                else if(this.sprite.putable(this.sprite.x, this.sprite.y-1)){
+                    this.move("top");
+                }
+                else if(this.sprite.putable(this.sprite.x, this.sprite.y+1)){
+                    this.move("down");
+                }
+            }
+        }
+        else{
+            if(dy>0){
+                if(this.sprite.putable(this.sprite.x, this.sprite.y+1)){
+                    this.move("down");
+                }
+                else if(dx>0){
+                    if(this.sprite.putable(this.sprite.x+1, this.sprite.y)){
+                        this.move("right");
+                    }
+                    else if(this.sprite.putable(this.sprite.x-1, this.sprite.y)){
+                        this.move("left");
+                    }
+                }
+                else if(this.sprite.putable(this.sprite.x+1, this.sprite.y)){
+                    this.move("right");
+                }
+                else if(this.sprite.putable(this.sprite.x-1, this.sprite.y)){
+                        this.move("left");
+                }
+            }
+            else if(dy<0){
+                if(this.sprite.putable(this.sprite.x, this.sprite.y-1)){
+                    this.move("top");
+                }
+                else if(dx>0){
+                    if(this.sprite.putable(this.sprite.x+1, this.sprite.y)){
+                        this.move("right");
+                    }
+                    else if(this.sprite.putable(this.sprite.x-1, this.sprite.y)){
+                        this.move("left");
+                    }
+                }
+                else if(this.sprite.putable(this.sprite.x+1, this.sprite.y)){
+                    this.move("right");
+                }
+                else if(this.sprite.putable(this.sprite.x-1, this.sprite.y)){
+                        this.move("left");
+                }
+            }
+        }
+    }
 }

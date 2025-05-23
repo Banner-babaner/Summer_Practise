@@ -26,6 +26,7 @@ class Sprite{
             this.frame=0;
             this.slide=0;  
         }
+        this.onAnimationEnd();
     }
 
     addAnimation(name, newAnimation){
@@ -40,6 +41,7 @@ class Sprite{
         if(this.slide==this.animations[this.animation].length){
             this.animation="static";
             this.slide = 0;
+            this.onAnimationEnd();
         }
         this.frame++;
         return {
@@ -51,14 +53,15 @@ class Sprite{
 
 
     putable(x, y){
-        if(x+this.width>fieldResolution) return 0;
-        if(y+this.height>fieldResolution) return 0;
+        if(x+this.width>ceilCount) return 0;
+        if(y+this.height>ceilCount) return 0;
         if(x<0) return 0;
         if(y<0) return 0;
         for(let i=0; i<this.height; i++){
             for(let j=0; j<this.width; j++){
                 if(hitBoxMap[y+i][x+j]&&(hitBoxMap[y+i][x+j]!=this)){
                     return 0;
+                    
                 }
             }
         }
@@ -104,5 +107,8 @@ class Sprite{
         this.interval=(test_value>0?test_value:test_value+1);
     }
     
+    onAnimationEnd(){
+
+    }
 }
 

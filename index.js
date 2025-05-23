@@ -79,6 +79,10 @@ window.onload = async ()=>{
     const ashlandGroundImg = await loadImg("images\\ground\\3x_RMMV\\tf_A5_ashlands_3.png");
     const greenSlimeImg = await loadImg("images\\sprites\\MiniWorldSprites\\Characters\\Monsters\\Slimes\\KingSlimeGreen.png");
 
+    link = new SwordsManRed();
+    link.player = player;
+    link.put(10, 10);
+
     let greenSlimeStatic = new ImageMap(greenSlimeImg, 6, 4);
     let greenSlimeSprite = new Sprite(greenSlimeStatic.getRow(0), 5, 5, 5);
 
@@ -96,9 +100,7 @@ window.onload = async ()=>{
     greenSlimeUnit5.name = "bottomPlayer";
     greenSlimeUnit6.name = "leftPlayer";
 
-    link = new SwordsManRed();
-    link.player = player;
-    link.put(10, 10);
+    
 
 
 
@@ -287,6 +289,15 @@ async function start() {
         [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(x, ceilCount-2);
     }
     window.onkeydown=(event)=>{
+        let toMove = new Array();
+        for(let i=0; i<(unitList.length); i++){
+            if(unitList[i]!=link){
+                toMove.push(unitList[i]);
+            }
+        }
+        for(let i=0; i<(toMove.length); i++){
+                toMove[i].toPoint(link.sprite.x, link.sprite.y);
+        }
         if(event.shiftKey){
             switch(event.key){
             case "A":

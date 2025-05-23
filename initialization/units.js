@@ -29,13 +29,6 @@ class BlueKingSlime extends Unit{
     }
 }
 
-class SwordsManRed extends Unit{
-    constructor(){
-        super(SwordsManRedSprite);
-    }
-    name = "SwordsManRed";
-}
-
 
 class GreenKingSlime extends Unit{
     constructor(){
@@ -46,4 +39,12 @@ class GreenKingSlime extends Unit{
     onclick(){
         this.sprite.changeAnimation(["static", "moveLeft", "moveRight", "moveTop"][randint(0, 4)]);
     }
+}
+
+
+class SwordsManRed extends Unit{
+    constructor(){
+        super(SwordsManRedSprite);
+    }
+    name = "SwordsManRed";
 }
