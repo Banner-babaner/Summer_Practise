@@ -312,27 +312,23 @@ async function start() {
             case "KeyD":
                 link.beat("right");
                 break;
-        }
+            }
         }
         else{
-            switch(event.key){
-            case "A":
-            case "a":
+            switch(event.code){
+            case "KeyA":
                 link.move("left");
                 break;
-            case "W":
-            case "w":
+            case "KeyW":
                 link.move("top");
                 break;
-            case "s":
-            case "S":
+            case "KeyS":
                 link.move("down");
                 break;
-            case "d":
-            case "D":
+            case "KeyD":
                 link.move("right");
                 break;
-        }
+            }
         }
     }
     update();
