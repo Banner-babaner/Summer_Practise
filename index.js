@@ -299,21 +299,17 @@ async function start() {
                 toMove[i].toPoint(link.sprite.x, link.sprite.y);
         }
         if(event.shiftKey){
-            switch(event.key){
-            case "A":
-            case "a":
+            switch(event.code){
+            case "KeyA":
                 link.beat("left");
                 break;
-            case "W":
-            case "w":
+            case "KeyW":
                 link.beat("top");
                 break;
-            case "s":
-            case "S":
+            case "KeyS":
                 link.beat("down");
                 break;
-            case "d":
-            case "D":
+            case "KeyD":
                 link.beat("right");
                 break;
         }
