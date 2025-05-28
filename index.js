@@ -296,7 +296,12 @@ async function start() {
             }
         }
         for(let i=0; i<(toMove.length); i++){
-                toMove[i].toPoint(link.sprite.x, link.sprite.y);
+                let enCoords = toMove[i].findEnemyNearby();
+                if(enCoords){
+                    let x = toMove[i].getCenter()[0];
+                    let y = toMove[i].getCenter()[1];
+                    toMove[i].toPoint(enCoords[0], enCoords[1]);
+                }
         }
         if(event.shiftKey){
             switch(event.code){

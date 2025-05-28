@@ -6,13 +6,14 @@ class Unit{
         unitList.push(this);
         this.hp = hp;
         this.atc = atc;
-        this.atcRange=1;
+        this.atcRange=15;
         this.atcInterval=1;
         this.armor = armor;
         this.player = player;
         this.name = name;
         this.hpRegen=0;
         this.watchingRadius=5;
+        this.moveable=true;
     }
 
 
@@ -48,26 +49,41 @@ class Unit{
     }
 
     findEnemyNearby(){
-
+        let centerX = Math.floor(this.sprite.x+this.sprite.width/2);
+        let centerY = Math.floor(this.sprite.y+this.sprite.height/2);
+        for(let r=0; r<=this.watchingRadius; r++){
+            for(let dx=-r; dx<=r; dx++){
+                for(let dy=-r; dy<=r; dy++){
+                    if(dx*dx+dy*dy>r*r) continue;
+                    let x = centerX+dx;
+                    let y = centerY+dy;
+                    if(!hitBoxMap[y])continue;
+                    if(hitBoxMap[y][x]&&hitBoxMap[y][x].unitReference.player!="passive"&&hitBoxMap[y][x].unitReference.player!=this.player){
+                        return [x, y];
+                    }
+                }
+            }
+        }
+        return undefined;
     }
 
     move(way){
         switch(way){
             case "top":
                 this.sprite.changeAnimation("moveTop");
-                this.put(this.sprite.x, this.sprite.y-1);
+                if(this.moveable) this.put(this.sprite.x, this.sprite.y-1);
                 break;
             case "right":
                 this.sprite.changeAnimation("moveRight");
-                this.put(this.sprite.x+1, this.sprite.y);
+                if(this.moveable) this.put(this.sprite.x+1, this.sprite.y);
                 break;
             case "down":
                 this.sprite.changeAnimation("moveDown");
-                this.put(this.sprite.x, this.sprite.y+1);
+                if(this.moveable) this.put(this.sprite.x, this.sprite.y+1);
                 break;
             case "left":
                 this.sprite.changeAnimation("moveLeft");
-                this.put(this.sprite.x-1, this.sprite.y);
+                if(this.moveable) this.put(this.sprite.x-1, this.sprite.y);
                 break;
             case "stop":
                 this.sprite.changeAnimation("static");
@@ -184,5 +200,8 @@ class Unit{
                 }
             }
         }
+    }
+    getCenter(){
+        return [this.sprite.x+this.sprite.width/2, this.sprite.y+this.sprite.y/2];
     }
 }
