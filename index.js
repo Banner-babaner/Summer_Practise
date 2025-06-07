@@ -7,6 +7,7 @@ const gctx = ground.getContext("2d");
 const sprites = document.getElementById("sprites");
 const sctx = sprites.getContext("2d");
 
+
 const ceilResolution = 50;
 const ceilCount = 64;
 
@@ -17,6 +18,8 @@ const switchFog = document.getElementById("switchFog");
 
 const spidometr = document.getElementById("spidometr");
 let gameSpeed = 1;
+let gameAct = 0;
+let gameInterval = 10;
 
 const fieldResolution = ceilResolution*ceilCount;
 
@@ -60,13 +63,13 @@ for(let y=0; y<ceilCount; y++){
 let id=0;
 // let idMap;
 let unitList = new Array();
-
+let mouseX = -10;
+let mouseY = -10;
 
 const player = ["top", "right", "bottom", "left"][randint(0, 4)];
 document.getElementById("playerName").innerHTML = `Player: ${player}`;
 
 var link;
-
 
 window.onload = async ()=>{
     await loadSpriteImages();
@@ -74,7 +77,7 @@ window.onload = async ()=>{
     spidometr.addEventListener('input', function () {
         changeGameSpeed(this.value);
     }, false);
-
+    sctx.lineWidth = 5;
     papersheet();
     const ashlandGroundImg = await loadImg("images\\ground\\3x_RMMV\\tf_A5_ashlands_3.png");
     const greenSlimeImg = await loadImg("images\\sprites\\MiniWorldSprites\\Characters\\Monsters\\Slimes\\KingSlimeGreen.png");
@@ -187,7 +190,31 @@ function papersheet(){
 function update(){
     drawSprites();
     requestAnimationFrame(update);
+    gameMouseEvents();
     updateFog(player);
+    gameAct++;
+    if(gameAct==gameInterval){
+        gameAct=0;
+        let toMove = new Array();
+        for(let i=0; i<(unitList.length); i++){
+            if(unitList[i]!=link){
+                toMove.push(unitList[i]);
+            }
+        }
+        for(let i=0; i<(toMove.length); i++){
+                let enCoords = toMove[i].findEnemyNearby();
+                if(enCoords){
+                    let x = toMove[i].getCenter()[0];
+                    let y = toMove[i].getCenter()[1];
+                    if(((x-enCoords[0])*(x-enCoords[0])+(y-enCoords[1])*(y-enCoords[1]))>(toMove[i].atcRange*toMove[i].atcRange))
+                    toMove[i].toPoint(enCoords[0], enCoords[1]);
+                    else{
+                        hitBoxMap[enCoords[1]][enCoords[0]].unitReference.changeHp(toMove[i].atc);
+                        console.log(hitBoxMap[enCoords[1]][enCoords[0]].unitReference.hp)
+                    }
+                }
+        }
+    }
 }
 
 function randint(a, b){
@@ -240,20 +267,10 @@ function fromto(from, n, to){
 }
 
 function getMouseCeil(event){
-    let x = Math.floor(event.offsetX/ground.clientWidth*ceilCount);
-    if(x<0)x=0;
-    let y = Math.floor(event.offsetY/ground.clientHeight*ceilCount);
-    if(y<0)y=0;
-    if(hitBoxMap[y][x]&&(battleFogMap[y][x]=="clear")) hitBoxMap[y][x].onhover();
-    coordsInf.innerHTML = `${[x, y]}`;
-    groundInf.innerHTML = `${groundMap[y][x].type}`;
-    if(hitBoxMap[y][x]!=undefined){
-        spriteInf.innerHTML = `${hitBoxMap[y][x].name}`;
-    }
-    else{
-        spriteInf.innerHTML = "None";
-    }
-    return [x, y];
+    mouseX = Math.floor(event.offsetX/ground.clientWidth*ceilCount);
+    if(mouseX<0)mouseX=0;
+    mouseY = Math.floor(event.offsetY/ground.clientHeight*ceilCount);
+    return [mouseX, mouseY];
 }
 
 function canvasClick(event){
@@ -289,20 +306,7 @@ async function start() {
         [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(x, ceilCount-2);
     }
     window.onkeydown=(event)=>{
-        let toMove = new Array();
-        for(let i=0; i<(unitList.length); i++){
-            if(unitList[i]!=link){
-                toMove.push(unitList[i]);
-            }
-        }
-        for(let i=0; i<(toMove.length); i++){
-                let enCoords = toMove[i].findEnemyNearby();
-                if(enCoords){
-                    let x = toMove[i].getCenter()[0];
-                    let y = toMove[i].getCenter()[1];
-                    toMove[i].toPoint(enCoords[0], enCoords[1]);
-                }
-        }
+        
         if(event.shiftKey){
             switch(event.code){
             case "KeyA":
@@ -344,4 +348,29 @@ function changeGameSpeed(newSpeed){
     unitList.forEach(unit => {
         unit.sprite.changeSpeed(newSpeed);
     });
+}
+
+function gameMouseEvents(){
+    if(mouseX<0) return;
+    if(mouseY<0)mouseY=0;
+    if(hitBoxMap[mouseY][mouseX]&&((battleFogMap[mouseY][mouseX]=="clear")||(!switchFog.checked))){
+        let center =  hitBoxMap[mouseY][mouseX].unitReference.getCenter();
+        hitBoxMap[mouseY][mouseX].onhover();
+        sctx.beginPath();
+        sctx.arc(center[0]*ceilResolution, center[1]*ceilResolution, hitBoxMap[mouseY][mouseX].unitReference.atcRange*ceilResolution, 0, 2*Math.PI);
+        sctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+        sctx.stroke();
+        sctx.beginPath();
+        sctx.arc(center[0]*ceilResolution, center[1]*ceilResolution, hitBoxMap[mouseY][mouseX].unitReference.watchingRadius*ceilResolution, 0, 2*Math.PI);
+        sctx.strokeStyle = 'rgba(127, 127, 255, 0.5)';
+        sctx.stroke();
+    }
+    coordsInf.innerHTML = `${[mouseX, mouseY]}`;
+    groundInf.innerHTML = `${groundMap[mouseY][mouseX].type}`;
+    if(hitBoxMap[mouseY][mouseX]!=undefined){
+        spriteInf.innerHTML = `${hitBoxMap[mouseY][mouseX].name}`;
+    }
+    else{
+        spriteInf.innerHTML = "None";
+    }
 }

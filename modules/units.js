@@ -18,7 +18,14 @@ class Unit{
 
 
     die(){
-
+        console.log(123);
+        unitList.splice(unitList.indexOf(this), 1);
+        for(let y=0; y<ceilCount; y++){
+            for(let x=0; x<ceilCount; x++){
+                if(hitBoxMap[y][x]==this.sprite)hitBoxMap[y][x]=undefined;
+                if(spriteMap[y][x]==this.sprite)spriteMap[y][x]=undefined;
+            }
+        }
     }
 
 
@@ -49,6 +56,7 @@ class Unit{
     }
 
     findEnemyNearby(){
+        if(this.player=="passive") return;
         let centerX = Math.floor(this.sprite.x+this.sprite.width/2);
         let centerY = Math.floor(this.sprite.y+this.sprite.height/2);
         for(let r=0; r<=this.watchingRadius; r++){
@@ -202,6 +210,6 @@ class Unit{
         }
     }
     getCenter(){
-        return [this.sprite.x+this.sprite.width/2, this.sprite.y+this.sprite.y/2];
+        return [this.sprite.x+this.sprite.width/2, this.sprite.y+this.sprite.height/2];
     }
 }

@@ -7,6 +7,8 @@ class LightDeadTree extends Unit{
     atc = 0;
     onclick = ()=>{};
     moveable = false;
+    atcRange = 0;
+    watchingRadius = 0;
 };
 
 class DarkDeadTree extends Unit{
@@ -18,28 +20,32 @@ class DarkDeadTree extends Unit{
     atc = 0;
     onclick = ()=>{};
     moveable = false;
+    atcRange = 0;
+    watchingRadius = 0;
 };
 
 class BlueKingSlime extends Unit{
     constructor(){
-        super(GreenKingSlimeSprite);
+        super(BlueKingSlimeSprite);
     }
     name = "BlueKingSlime";
     watchingRadius = 10;
+    atcRange = 5;
     onclick(){
-        this.sprite.changeAnimation(["static", "moveLeft", "moveRight", "moveTop"][randint(0, 4)]);
+        this.die();
     }
 }
 
 
 class GreenKingSlime extends Unit{
     constructor(){
-        super(BlueKingSlimeSprite);
+        super(GreenKingSlimeSprite);
     }
     name = "GreenKingSlime";
     watchingRadius = 10;
+    atcRange = 5;
     onclick(){
-        this.sprite.changeAnimation(["static", "moveLeft", "moveRight", "moveTop"][randint(0, 4)]);
+        this.die();
     }
 }
 
