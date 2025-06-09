@@ -55,4 +55,6 @@ class SwordsManRed extends Unit{
         super(SwordsManRedSprite);
     }
     name = "SwordsManRed";
+    atcRange = 3;
+    watchingRadius = 15;
 }

@@ -6,7 +6,7 @@ class Unit{
         unitList.push(this);
         this.hp = hp;
         this.atc = atc;
-        this.atcRange=15;
+        this.atcRange=3;
         this.atcInterval=1;
         this.armor = armor;
         this.player = player;
@@ -14,6 +14,8 @@ class Unit{
         this.hpRegen=0;
         this.watchingRadius=5;
         this.moveable=true;
+        this.died = false;
+        this.invulnerable = false;
     }
 
 
@@ -26,9 +28,13 @@ class Unit{
                 if(spriteMap[y][x]==this.sprite)spriteMap[y][x]=undefined;
             }
         }
+        delete this.sprite;
+        this.died = true;
     }
 
+    onDie(){
 
+    }
 
     changeHp(dHp){
         this.hp-=dHp;
@@ -66,7 +72,7 @@ class Unit{
                     let x = centerX+dx;
                     let y = centerY+dy;
                     if(!hitBoxMap[y])continue;
-                    if(hitBoxMap[y][x]&&hitBoxMap[y][x].unitReference.player!="passive"&&hitBoxMap[y][x].unitReference.player!=this.player){
+                    if(hitBoxMap[y][x]&&hitBoxMap[y][x].unitReference.player!="passive"&&(!hitBoxMap[y][x].unitReference.invulnerable)&&hitBoxMap[y][x].unitReference.player!=this.player){
                         return [x, y];
                     }
                 }

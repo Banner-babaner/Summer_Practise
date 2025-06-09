@@ -19,7 +19,8 @@ const switchFog = document.getElementById("switchFog");
 const spidometr = document.getElementById("spidometr");
 let gameSpeed = 1;
 let gameAct = 0;
-let gameInterval = 10;
+const defaultGameInterval = 10;
+let gameInterval = defaultGameInterval;
 
 const fieldResolution = ceilResolution*ceilCount;
 
@@ -65,11 +66,13 @@ let id=0;
 let unitList = new Array();
 let mouseX = -10;
 let mouseY = -10;
+let keys = [];
 
 const player = ["top", "right", "bottom", "left"][randint(0, 4)];
 document.getElementById("playerName").innerHTML = `Player: ${player}`;
 
 var link;
+var asd;
 
 window.onload = async ()=>{
     await loadSpriteImages();
@@ -85,6 +88,8 @@ window.onload = async ()=>{
     link = new SwordsManRed();
     link.player = player;
     link.put(10, 10);
+    link.hp = 9999;
+    // link.invulnerable = true;
 
     let greenSlimeStatic = new ImageMap(greenSlimeImg, 6, 4);
     let greenSlimeSprite = new Sprite(greenSlimeStatic.getRow(0), 5, 5, 5);
@@ -96,6 +101,10 @@ window.onload = async ()=>{
     let greenSlimeUnit4 = new GreenKingSlime();
     let greenSlimeUnit5 = new GreenKingSlime();
     let greenSlimeUnit6 = new BlueKingSlime();
+    let h1 = new SwordsManRed();
+    let h2 = new SwordsManRed();
+    let h3 = new SwordsManRed();
+    let h4 = new SwordsManRed();
     greenSlimeUnit6.sprite.name = "BlueTeaSlime";
     greenSlimeUnit2.name = "GTS2";
     greenSlimeUnit3.name = "topPlayer";
@@ -103,6 +112,8 @@ window.onload = async ()=>{
     greenSlimeUnit5.name = "bottomPlayer";
     greenSlimeUnit6.name = "leftPlayer";
 
+
+    asd = greenSlimeUnit;
     
 
 
@@ -114,10 +125,18 @@ window.onload = async ()=>{
     greenSlimeUnit4.put(ceilCount-greenSlimeUnit4.sprite.width-4, Math.floor(ceilCount/2-greenSlimeUnit3.sprite.height/2));
     greenSlimeUnit5.put(Math.floor(ceilCount/2-greenSlimeUnit3.sprite.width/2), ceilCount-greenSlimeUnit5.sprite.height-4);
     greenSlimeUnit6.put(4, Math.floor(ceilCount/2-greenSlimeUnit3.sprite.height/2));
+    h1.put(35, 2);
+    h2.put(60, 30);
+    h3.put(35, 60)
+    h4.put(3, 40);
     greenSlimeUnit3.player = "top";
     greenSlimeUnit4.player = "right";
     greenSlimeUnit5.player = "bottom";
     greenSlimeUnit6.player = "left";
+    h1.player = "top";
+    h2.player = "right";
+    h3.player = "bottom";
+    h4.player = "left";
 
     let ashlandGround = new ImageMap(ashlandGroundImg, 8, 16);
     // idMap = new Ground(ashlandGround.getAll());
@@ -191,9 +210,10 @@ function update(){
     drawSprites();
     requestAnimationFrame(update);
     gameMouseEvents();
+    gameKeysEvents();
     updateFog(player);
     gameAct++;
-    if(gameAct==gameInterval){
+    if(gameAct>=gameInterval){
         gameAct=0;
         let toMove = new Array();
         for(let i=0; i<(unitList.length); i++){
@@ -202,6 +222,11 @@ function update(){
             }
         }
         for(let i=0; i<(toMove.length); i++){
+                if(toMove[i].died){
+                    toMove[i].onDie();
+                    delete toMove[i];
+                    continue;
+                }
                 let enCoords = toMove[i].findEnemyNearby();
                 if(enCoords){
                     let x = toMove[i].getCenter()[0];
@@ -210,7 +235,6 @@ function update(){
                     toMove[i].toPoint(enCoords[0], enCoords[1]);
                     else{
                         hitBoxMap[enCoords[1]][enCoords[0]].unitReference.changeHp(toMove[i].atc);
-                        console.log(hitBoxMap[enCoords[1]][enCoords[0]].unitReference.hp)
                     }
                 }
         }
@@ -306,39 +330,10 @@ async function start() {
         [new LightDeadTree(), new DarkDeadTree][randint(0, 2)].put(x, ceilCount-2);
     }
     window.onkeydown=(event)=>{
-        
-        if(event.shiftKey){
-            switch(event.code){
-            case "KeyA":
-                link.beat("left");
-                break;
-            case "KeyW":
-                link.beat("top");
-                break;
-            case "KeyS":
-                link.beat("down");
-                break;
-            case "KeyD":
-                link.beat("right");
-                break;
-            }
-        }
-        else{
-            switch(event.code){
-            case "KeyA":
-                link.move("left");
-                break;
-            case "KeyW":
-                link.move("top");
-                break;
-            case "KeyS":
-                link.move("down");
-                break;
-            case "KeyD":
-                link.move("right");
-                break;
-            }
-        }
+        if(!keys.includes(event.code)) keys.push(event.code);
+    }
+    window.onkeyup = (event)=>{
+        if(keys.includes(event.code)) keys.splice(keys.indexOf(event.code), 1);
     }
     update();
 }
@@ -348,6 +343,7 @@ function changeGameSpeed(newSpeed){
     unitList.forEach(unit => {
         unit.sprite.changeSpeed(newSpeed);
     });
+    gameInterval=Math.floor(defaultGameInterval/newSpeed);
 }
 
 function gameMouseEvents(){
@@ -373,4 +369,22 @@ function gameMouseEvents(){
     else{
         spriteInf.innerHTML = "None";
     }
+}
+function gameKeysEvents(){
+    keys.forEach(element => {
+        switch(element){
+            case "KeyA":
+                link.move("left");
+                break;
+            case "KeyW":
+                link.move("top");
+                break;
+            case "KeyS":
+                link.move("down");
+                break;
+            case "KeyD":
+                link.move("right");
+                break;
+            }
+    });
 }
