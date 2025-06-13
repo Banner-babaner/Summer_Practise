@@ -33,6 +33,10 @@ class Sprite{
         this.animations[name]=newAnimation;
     }
 
+    onUpdate(){
+
+    }
+
     update(){
         if(this.frame>=this.interval){
             this.frame=0;
@@ -44,6 +48,7 @@ class Sprite{
             this.onAnimationEnd();
         }
         this.frame++;
+        this.onUpdate();
         return {
             img: this.animations[this.animation][this.slide],
             height: this.height,
@@ -69,8 +74,8 @@ class Sprite{
     }
 
 
-    put(x, y){
-        if(!this.putable(x, y)) return;
+    put(x, y, check=true){
+        if((check)&&(!this.putable(x, y))) return;
 
         
         if(this.x!="none"){
@@ -105,6 +110,9 @@ class Sprite{
     changeSpeed(mult){
         let test_value = Math.floor(this.defaultInterval/mult);
         this.interval=(test_value>0?test_value:test_value+1);
+        if(this.unitReference){
+            this.unitReference.atcInterval=this.unitReference.defaultAtcInterval*this.interval;
+        }
     }
     
     onAnimationEnd(){

@@ -1,21 +1,45 @@
 class Unit{
     constructor(sprite, hp=100, atc=10, armor=1, player="neutral", name="Unnamed"){
+        this.atc = atc;
+        this.atcRange=3;
+        this.defaultAtcInterval=4;
+        this.atcMoment=0;
+
         this.sprite = new Sprite(undefined);
         Object.assign(this.sprite, sprite);
         this.sprite.connect(this);
+        for(let key in this.sprite.animations){
+            if(key.includes("beat")){
+                if(this.sprite.animations[key].length>this.defaultAtcInterval)
+                    this.defaultAtcInterval=this.sprite.animations[key].length;
+            }
+
+        }
+        this.atcInterval=this.defaultAtcInterval*this.sprite.interval;
+        
         unitList.push(this);
         this.hp = hp;
-        this.atc = atc;
-        this.atcRange=3;
-        this.atcInterval=1;
+
         this.armor = armor;
         this.player = player;
         this.name = name;
         this.hpRegen=0;
         this.watchingRadius=5;
+
+        this.moveInterval=5;
+        this.moveMoment = 0;
+
         this.moveable=true;
+
         this.died = false;
         this.invulnerable = false;
+
+        this.priorityList = [
+            "top",
+            "left",
+            "bottom",
+            "right"
+        ];
     }
 
 
@@ -28,6 +52,7 @@ class Unit{
                 if(spriteMap[y][x]==this.sprite)spriteMap[y][x]=undefined;
             }
         }
+        this.onDie();
         delete this.sprite;
         this.died = true;
     }
@@ -44,15 +69,15 @@ class Unit{
     }
 
     onclick(){
-        alert(`Name:    ${this.name}\nHp: ${this.hp}\nAtc:   ${this.atc}\nArmor:  ${this.armor}\nCommand:    ${this.player}\n`);
+        alert(`Name:    ${this.name}\nHp: ${this.hp}\nAtc:   ${this.atc}\nArmor:  ${this.armor}\nCommand:    ${this.player}\nPriorities:${this.priorityList}\nWatching:${this.watchingRadius}`);
     }
 
     onhover(){
         
     }
 
-    put(x, y){
-        this.sprite.put(x, y);
+    put(x, y, check=true){
+        this.sprite.put(x, y, check);
         let index=unitList.indexOf(this);
         if(index>-1){
             unitList.splice(index, 1);
@@ -107,20 +132,52 @@ class Unit{
         }
     }
     beat(way){
+        if(way.length){
+            let coords = this.getCenter();
+            // console.log(coords, way);
+            let dx = way[0]-coords[0];
+            let dy = way[1]-coords[1];
+            if(Math.abs(dx)>Math.abs(dy)){
+                if(dx>0){
+                    if(this.sprite.animation!="beatRight")
+                    this.sprite.changeAnimation("beatRight");
+                }
+                else{
+                    if(this.sprite.animation!="beatLeft")
+                    this.sprite.changeAnimation("beatLeft");
+                }
+            }
+            else{
+                if(dy>0){
+                    if(this.sprite.animation!="beatDown")
+                    this.sprite.changeAnimation("beatDown");
+                }
+                else{
+                    if(this.sprite.animation!="beatTop")
+                    this.sprite.changeAnimation("beatTop");
+                }
+            }
+        }
+        else
         switch(way){
             case "top":
+                if(this.sprite.animation!="beatTop")
                 this.sprite.changeAnimation("beatTop");
                 break;
             case "right":
+                if(this.sprite.animation!="beatRight")
                 this.sprite.changeAnimation("beatRight");
                 break;
             case "down":
+                if(this.sprite.animation!="beatDown")
                 this.sprite.changeAnimation("beatDown");
                 break;
             case "left":
+                if(this.sprite.animation!="beatLeft")
                 this.sprite.changeAnimation("beatLeft");
                 break;
             case "stop":
+                if(this.sprite.animation!="static")
                 this.sprite.changeAnimation("static");
                 break;
             default:
@@ -218,4 +275,51 @@ class Unit{
     getCenter(){
         return [this.sprite.x+this.sprite.width/2, this.sprite.y+this.sprite.height/2];
     }
+
+    spawn(unitType){
+        let unit = new unitType();
+        unit.player = this.player;
+        let newPriorityList = new Array();
+        this.priorityList.forEach(element=>{
+            newPriorityList.push(element);
+        });
+        unit.priorityList = newPriorityList;
+        let coords = this.getCenter();
+        let done = false;
+        for(let r=1; r<ceilCount; r++){
+            for(let dy=-r; dy<r; dy++){
+                for(let dx=-r; dx<r; dx++){
+                    let putx = Math.floor(coords[0]+dx);
+                    let puty = Math.floor(coords[1]+dy);
+                    if(unit.sprite.putable(putx, puty)){
+                        unit.put(putx, puty, false);
+                        done = true;
+                        break;
+                    }
+                }
+                if(done) break;
+            }
+            if(done) break;
+        }
+    }
+}
+
+class Spawner extends Unit{
+    constructor(sprite){
+        super(sprite);
+        this.spawnList = [];
+        this.spawnInterval=100;
+        this.spawnMoment=0;
+        this.sprite.onUpdate = ()=>{
+            this.spawnMoment++;
+            if(this.spawnMoment>=this.spawnInterval){
+                this.spawnList.forEach(element=>{
+                        this.spawn(element);
+                    }
+                )
+                this.spawnMoment=0;
+            }
+        }
+    }
+
 }

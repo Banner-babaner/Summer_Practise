@@ -2,6 +2,7 @@ class Ground{
     constructor(imageList, type="ground"){
         this.imageList = imageList;
         this.type = type;
+        this.forPlants = true;
     }
 
 
@@ -16,7 +17,8 @@ class Ground{
 
         return {
             img : img,
-            type : this.type
+            type : this.type,
+            forPlants: this.forPlants
         }
     }
 }
